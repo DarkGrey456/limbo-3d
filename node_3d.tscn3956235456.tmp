@@ -1,0 +1,141 @@
+[gd_scene format=3 uid="uid://bugr4et8m4sxl"]
+
+[ext_resource type="Script" uid="uid://m3s26tqb5q86" path="res://node_3d.gd" id="1_i5arm"]
+[ext_resource type="Script" uid="uid://cor0nhonprn3o" path="res://character_body_3d.gd" id="1_jka67"]
+[ext_resource type="Script" uid="uid://cr8dvi5gy6iqc" path="res://HitBox3d.gd" id="1_noarx"]
+[ext_resource type="Script" uid="uid://bgifj57hvo708" path="res://hurtbox_3d.gd" id="2_a0tk4"]
+[ext_resource type="Script" uid="uid://cm80grahla8r1" path="res://health_3d.gd" id="3_a0tk4"]
+[ext_resource type="BehaviorTree" uid="uid://bpdm5jnegi38" path="res://demo/ai/trees/01_agent_melee_simple.tres" id="4_r3fl7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r3fl7"]
+albedo_color = Color(0.288518, 0.28851798, 0.28851798, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_jka67"]
+material = SubResource("StandardMaterial3D_r3fl7")
+size = Vector3(1000, 1, 1000)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_i5arm"]
+data = PackedVector3Array(-500, 0.5, 500, 500, 0.5, 500, -500, -0.5, 500, 500, 0.5, 500, 500, -0.5, 500, -500, -0.5, 500, 500, 0.5, -500, -500, 0.5, -500, 500, -0.5, -500, -500, 0.5, -500, -500, -0.5, -500, 500, -0.5, -500, 500, 0.5, 500, 500, 0.5, -500, 500, -0.5, 500, 500, 0.5, -500, 500, -0.5, -500, 500, -0.5, 500, -500, 0.5, -500, -500, 0.5, 500, -500, -0.5, -500, -500, 0.5, 500, -500, -0.5, 500, -500, -0.5, -500, 500, 0.5, 500, -500, 0.5, 500, 500, 0.5, -500, -500, 0.5, 500, -500, 0.5, -500, 500, 0.5, -500, -500, -0.5, 500, 500, -0.5, 500, -500, -0.5, -500, 500, -0.5, 500, 500, -0.5, -500, -500, -0.5, -500)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wc5p8"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jsk3o"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4arys"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6iypd"]
+material = SubResource("StandardMaterial3D_4arys")
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tereu"]
+radius = 0.75
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_jka67"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i5arm"]
+albedo_color = Color(0.019607844, 0, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_wc5p8"]
+material = SubResource("StandardMaterial3D_i5arm")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_jsk3o"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4arys"]
+radius = 0.75
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r3fl7"]
+
+[sub_resource type="Sky" id="Sky_jka67"]
+sky_material = SubResource("ProceduralSkyMaterial_r3fl7")
+
+[sub_resource type="Environment" id="Environment_i5arm"]
+background_mode = 2
+sky = SubResource("Sky_jka67")
+
+[node name="Node3D" type="Node3D" unique_id=1234482533]
+script = ExtResource("1_i5arm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1716692048]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("BoxMesh_jka67")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="MeshInstance3D" unique_id=1325646866]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MeshInstance3D/StaticBody3D" unique_id=646534954]
+shape = SubResource("ConcavePolygonShape3D_i5arm")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1800059432]
+script = ExtResource("1_jka67")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="CharacterBody3D" unique_id=1770613732]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_wc5p8")
+
+[node name="Root" type="MeshInstance3D" parent="CharacterBody3D" unique_id=1198616140]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_jsk3o")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="CharacterBody3D/Root" unique_id=1267456799]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.29768145, 0.53795946)
+mesh = SubResource("BoxMesh_6iypd")
+skeleton = NodePath("../..")
+
+[node name="Hitbox3d" type="Area3D" parent="CharacterBody3D" unique_id=1349025403]
+script = ExtResource("1_noarx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Hitbox3d" unique_id=822049526]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_tereu")
+
+[node name="Hurtbox3d" type="Area3D" parent="CharacterBody3D" unique_id=540167396 node_paths=PackedStringArray("health")]
+script = ExtResource("2_a0tk4")
+health = NodePath("../Health3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D/Hurtbox3d" unique_id=1274143863]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_tereu")
+
+[node name="Health3D" type="Node" parent="CharacterBody3D" unique_id=1342101413]
+script = ExtResource("3_a0tk4")
+
+[node name="BTPlayer" type="BTPlayer" parent="CharacterBody3D" unique_id=1820288960]
+behavior_tree = ExtResource("4_r3fl7")
+blackboard_plan = SubResource("BlackboardPlan_jka67")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody3D" unique_id=1442602913]
+root_node = NodePath("../..")
+
+[node name="CharacterBody3D2" type="CharacterBody3D" parent="." unique_id=394635495 groups=["player"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D2" unique_id=624389687]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_wc5p8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D2" unique_id=1029232208]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_jsk3o")
+
+[node name="Hurtbox3D" type="Area3D" parent="CharacterBody3D2" unique_id=695826120 node_paths=PackedStringArray("health")]
+script = ExtResource("2_a0tk4")
+health = NodePath("../Health3D")
+metadata/_custom_type_script = "uid://bgifj57hvo708"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D2/Hurtbox3D" unique_id=841208327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_4arys")
+
+[node name="Health3D" type="Node" parent="CharacterBody3D2" unique_id=365079393]
+script = ExtResource("3_a0tk4")
+metadata/_custom_type_script = "uid://cm80grahla8r1"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1340549666]
+environment = SubResource("Environment_i5arm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment" unique_id=1635471187]
+transform = Transform3D(1, 0, 0, 0, 0.977438, 0.21122243, 0, -0.21122243, 0.977438, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1535166823]
+transform = Transform3D(-0.99281836, 0.080802, 0.08822039, 0.10834561, 0.91998595, 0.37667948, -0.050725043, 0.3835325, -0.9221333, 11.475618, 9.497351, -10.026743)
