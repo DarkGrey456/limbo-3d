@@ -1,0 +1,247 @@
+[gd_scene format=3 uid="uid://d2tcj1vfc7edk"]
+
+[ext_resource type="Script" uid="uid://cor0nhonprn3o" path="res://character_body_3d.gd" id="1_fg6ie"]
+[ext_resource type="Script" uid="uid://cr8dvi5gy6iqc" path="res://HitBox3d.gd" id="2_rouy1"]
+[ext_resource type="Script" uid="uid://bgifj57hvo708" path="res://hurtbox_3d.gd" id="3_drgkk"]
+[ext_resource type="Script" uid="uid://cm80grahla8r1" path="res://health_3d.gd" id="4_q3aug"]
+[ext_resource type="BehaviorTree" uid="uid://bjkuvfnp8gq06" path="res://demo/ai/trees/03_agent_imp_3d.tres" id="5_fg6ie"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wc5p8"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y8qh2"]
+albedo_color = Color(0.7595484, 0.3706189, 0.66936123, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jsk3o"]
+material = SubResource("StandardMaterial3D_y8qh2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4arys"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6iypd"]
+material = SubResource("StandardMaterial3D_4arys")
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fg6ie"]
+size = Vector3(0.48376465, 0.35876465, 0.32165527)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tereu"]
+radius = 0.75
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_eh0um"]
+var/speed/name = &"speed"
+var/speed/type = 3
+var/speed/value = 10.0
+var/speed/hint = 1
+var/speed/hint_string = "10,1000,10"
+
+[sub_resource type="Animation" id="Animation_4arys"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Imp/Root/MeshInstance3D2")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 2.1982012)
+
+[sub_resource type="Animation" id="Animation_i5arm"]
+resource_name = "attack_1"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Imp")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"attack_animation"
+}]
+}
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Imp/Root/MeshInstance3D2")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0.06666667, 1, 0, 0, -0.53040457, 1, 1, 0, 0, -1.3830392)
+
+[sub_resource type="Animation" id="Animation_y8qh2"]
+resource_name = "charge"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Imp")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"charge_animation"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_cnsac"]
+resource_name = "charge_prepare"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Imp")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.03333333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"charge_prepare_animation"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_fg6ie"]
+resource_name = "hurt"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Imp")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"idle_animation"
+}]
+}
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Imp/Root/MeshInstance3D2")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, -0.5184405)
+
+[sub_resource type="Animation" id="Animation_wc5p8"]
+resource_name = "idle"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Imp")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"idle_animation"
+}]
+}
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Imp/Root/MeshInstance3D2")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, -0.5184405)
+
+[sub_resource type="Animation" id="Animation_jsk3o"]
+resource_name = "walk"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Imp")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.06666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"walk_animation"
+}]
+}
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Imp/Root/MeshInstance3D2")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0.033333335, 1, 0, 0, -0.5099025)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4arys"]
+_data = {
+&"RESET": SubResource("Animation_4arys"),
+&"attack_1": SubResource("Animation_i5arm"),
+&"charge": SubResource("Animation_y8qh2"),
+&"charge_prepare": SubResource("Animation_cnsac"),
+&"hurt": SubResource("Animation_fg6ie"),
+&"idle": SubResource("Animation_wc5p8"),
+&"walk": SubResource("Animation_jsk3o")
+}
+
+[node name="Imp" type="CharacterBody3D" unique_id=1256787723]
+script = ExtResource("1_fg6ie")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1447844727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_wc5p8")
+
+[node name="Root" type="MeshInstance3D" parent="." unique_id=2097222095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_jsk3o")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Root" unique_id=2097277787]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5184405)
+mesh = SubResource("BoxMesh_6iypd")
+skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="Root/MeshInstance3D2" unique_id=311731403]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Root/MeshInstance3D2/Area3D" unique_id=1313798553]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.020812988, -0.03643799, -0.008239746)
+shape = SubResource("BoxShape3D_fg6ie")
+
+[node name="Hitbox3d" type="Area3D" parent="." unique_id=1314900137]
+script = ExtResource("2_rouy1")
+knockback_enabled = true
+knockback_strength = 15.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox3d" unique_id=476597236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_tereu")
+
+[node name="Hurtbox3d" type="Area3D" parent="." unique_id=1178550346 node_paths=PackedStringArray("health")]
+collision_layer = 512
+collision_mask = 512
+script = ExtResource("3_drgkk")
+health = NodePath("../Health3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox3d" unique_id=1838570131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_tereu")
+
+[node name="Health3D" type="Node" parent="." unique_id=1511538703]
+script = ExtResource("4_q3aug")
+
+[node name="BTPlayer" type="BTPlayer" parent="." unique_id=163445262]
+behavior_tree = ExtResource("5_fg6ie")
+blackboard_plan = SubResource("BlackboardPlan_eh0um")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=655651794]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_4arys")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1102831296]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.441783, 0)
+billboard = 1
+text = "TEST"
+font_size = 64
+
+[connection signal="area_entered" from="Hitbox3d" to="Hitbox3d" method="_on_area_entered"]

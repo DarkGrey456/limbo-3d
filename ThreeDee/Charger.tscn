@@ -1,0 +1,240 @@
+[gd_scene format=3 uid="uid://byiv6xjj1mxed"]
+
+[ext_resource type="Script" uid="uid://ckkcur6pla3k0" path="res://agent_charger_3d.gd" id="1_y8qh2"]
+[ext_resource type="Script" uid="uid://cr8dvi5gy6iqc" path="res://HitBox3d.gd" id="2_cnsac"]
+[ext_resource type="Script" uid="uid://bgifj57hvo708" path="res://hurtbox_3d.gd" id="3_smr7k"]
+[ext_resource type="Script" uid="uid://cm80grahla8r1" path="res://health_3d.gd" id="4_2kbj1"]
+[ext_resource type="BehaviorTree" uid="uid://b5a5luufghx62" path="res://demo/ai/trees/02_agent_charger_3d.tres" id="5_y8qh2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_wc5p8"]
+
+[sub_resource type="Animation" id="Animation_4arys"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Charger/Root/MeshInstance3D2")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, -0.5)
+
+[sub_resource type="Animation" id="Animation_y8qh2"]
+resource_name = "attack1"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Charger/Root/MeshInstance3D2")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.033333335, 1, 0, 0, -0.5965948, 1, 1, 0, 0, -2.0198865)
+
+[sub_resource type="Animation" id="Animation_smr7k"]
+resource_name = "charge"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Charger/Root/MeshInstance3D2")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.033333335, 1, 0, 0, -0.5295644, 1, 1, 0, 0, -0.5295644)
+
+[sub_resource type="Animation" id="Animation_cnsac"]
+resource_name = "charge_prepare"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Charger")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.03333333),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"charge_prepare_animation"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_2kbj1"]
+resource_name = "hurt"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Charger")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"idle_animation"
+}]
+}
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Charger/Root/MeshInstance3D2")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, -0.49732465, 0.4, 1, 0, 0.35584092, -0.4973247, 0.8333333, 1, 0, 0, -0.497)
+
+[sub_resource type="Animation" id="Animation_wc5p8"]
+resource_name = "idle"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Charger")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.033333335),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"idle_animation"
+}]
+}
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Charger/Root/MeshInstance3D2")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0, 1, 0, 0, -0.49732465, 0.4, 1, 0, 0.35584092, -0.4973247, 0.8333333, 1, 0, 0, -0.497)
+
+[sub_resource type="Animation" id="Animation_jsk3o"]
+resource_name = "walk"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Charger")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.06666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"walk_animation"
+}]
+}
+tracks/1/type = "position_3d"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Charger/Root/MeshInstance3D2")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = PackedFloat32Array(0.033333335, 1, 0, 0, -0.6078334, 0.4, 1, 0.22993147, 0, -0.6078334, 0.7, 1, -0.29685628, 0, -0.6078334, 0.93333334, 1, 0, 0, -0.608)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4arys"]
+_data = {
+&"RESET": SubResource("Animation_4arys"),
+&"attack1": SubResource("Animation_y8qh2"),
+&"charge": SubResource("Animation_smr7k"),
+&"charge_prepare": SubResource("Animation_cnsac"),
+&"hurt": SubResource("Animation_2kbj1"),
+&"idle": SubResource("Animation_wc5p8"),
+&"walk": SubResource("Animation_jsk3o")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_y8qh2"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_jsk3o"]
+material = SubResource("StandardMaterial3D_y8qh2")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4arys"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6iypd"]
+material = SubResource("StandardMaterial3D_4arys")
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_y8qh2"]
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tereu"]
+radius = 0.75
+
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_eh0um"]
+var/speed/name = &"speed"
+var/speed/type = 3
+var/speed/value = 10.0
+var/speed/hint = 1
+var/speed/hint_string = "10,1000,10"
+var/charge_speed/name = &"charge_speed"
+var/charge_speed/type = 3
+var/charge_speed/value = 30.0
+var/charge_speed/hint = 1
+var/charge_speed/hint_string = "10,1000,10"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cnsac"]
+radius = 0.88
+
+[node name="Charger" type="CharacterBody3D" unique_id=1256787723]
+collision_mask = 2
+script = ExtResource("1_y8qh2")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="." unique_id=1447844727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_wc5p8")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=655651794]
+root_node = NodePath("../..")
+libraries/ = SubResource("AnimationLibrary_4arys")
+
+[node name="Root" type="MeshInstance3D" parent="." unique_id=2097222095]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_jsk3o")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Root" unique_id=2097277787]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.49732465)
+mesh = SubResource("BoxMesh_6iypd")
+skeleton = NodePath("../..")
+
+[node name="Area3D" type="Area3D" parent="Root/MeshInstance3D2" unique_id=1430531312]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Root/MeshInstance3D2/Area3D" unique_id=2103688417]
+shape = SubResource("BoxShape3D_y8qh2")
+
+[node name="Hitbox3d" type="Area3D" parent="." unique_id=1314900137]
+script = ExtResource("2_cnsac")
+knockback_enabled = true
+knockback_strength = 15.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox3d" unique_id=476597236]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_tereu")
+
+[node name="Hurtbox3d" type="Area3D" parent="." unique_id=1178550346 node_paths=PackedStringArray("health")]
+collision_layer = 512
+collision_mask = 512
+script = ExtResource("3_smr7k")
+health = NodePath("../Health3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hurtbox3d" unique_id=1838570131]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_tereu")
+
+[node name="Health3D" type="Node" parent="." unique_id=1511538703]
+script = ExtResource("4_2kbj1")
+
+[node name="BTPlayer" type="BTPlayer" parent="." unique_id=163445262]
+behavior_tree = ExtResource("5_y8qh2")
+blackboard_plan = SubResource("BlackboardPlan_eh0um")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=435439049]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=1652895512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.97254384, 0)
+shape = SubResource("CapsuleShape3D_cnsac")
+
+[node name="Label3D" type="Label3D" parent="." unique_id=1771990849]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.441783, 0)
+billboard = 1
+text = "TEST"
+font_size = 64
+
+[connection signal="area_entered" from="Hitbox3d" to="Hitbox3d" method="_on_area_entered"]
